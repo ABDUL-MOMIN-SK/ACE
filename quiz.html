@@ -3,88 +3,226 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ACE Mock Test — Aarohan Coaching</title>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&family=Noto+Serif+Bengali:wght@600&family=Noto+Sans+Bengali:wght@400;500;600&display=swap" rel="stylesheet">
+<title>ACE Mock Test — Aarohan Coaching of Excellence</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="Aarohan_Logo.png" type="image/png">
+<link rel="apple-touch-icon" href="Aarohan_Logo.png">
+<meta name="theme-color" content="#0B1526">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@600;700&family=Noto+Sans+Bengali:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --navy-deep:#0B1526; --navy:#122544; --gold:#B8922E; --gold-bright:#E6C766; --gold-pale:#F3E4B8;
-    --paper:#FBF8F1; --ink:#1C1B17; --muted:#6B6656; --hairline:#E8DFC3; --radius:12px;
+    --navy-deep:#0B1526;
+    --navy:#122544;
+    --navy-soft:#1B3159;
+    --gold:#B8922E;
+    --gold-bright:#E6C766;
+    --gold-pale:#F3E4B8;
+    --paper:#FBF8F1;
+    --ink:#1C1B17;
+    --muted:#6B6656;
+    --hairline:#E8DFC3;
+    --radius:12px;
+    --maxw:800px;
+    --glow-gold:0 0 30px rgba(230,199,102,.3);
+    --safe-bottom:env(safe-area-inset-bottom, 0px);
+    --touch-min:48px;
   }
   *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent;}
-  body{background:var(--paper); color:var(--ink); font-family:'Inter',sans-serif; line-height:1.65; -webkit-user-select:none; user-select:none;}
-  
-  [lang-as]{display:none;}
-  [data-lang="as"] [lang-en]{display:none;}
-  [data-lang="as"] [lang-as]{display:inline;}
+  html{scroll-behavior:smooth; -webkit-text-size-adjust:100%;}
+  body{
+    background:
+      radial-gradient(circle at 88% 4%, rgba(230,199,102,.22) 0%, transparent 32%),
+      radial-gradient(circle at 4% 98%, rgba(18,37,68,.16) 0%, transparent 30%),
+      radial-gradient(rgba(184,146,46,.09) 1px, transparent 1.6px) 0 0/22px 22px,
+      var(--paper);
+    background-repeat:no-repeat, no-repeat, repeat, no-repeat;
+    color:var(--ink); font-family:'Inter',sans-serif; line-height:1.65;
+    -webkit-font-smoothing:antialiased; font-size:15px;
+    -webkit-user-select:none; user-select:none;
+    display:flex; flex-direction:column; min-height:100vh;
+  }
+  ::selection{background:var(--gold-pale); color:var(--navy-deep);}
+  :focus-visible{outline:2px solid var(--gold); outline-offset:3px; border-radius:4px;}
+
+  [lang-as]{display:none !important;}
+  [data-lang="as"] [lang-en]{display:none !important;}
+  [data-lang="as"] [lang-as]{display:inline !important;}
   html[data-lang="as"] body{font-family:'Noto Sans Bengali','Inter',sans-serif;}
-  h2, .font-display{font-family:'Fraunces',serif;}
-  html[data-lang="as"] h2, html[data-lang="as"] .font-display{font-family:'Noto Serif Bengali','Fraunces',serif;}
-  
-  .wrap{max-width:800px; margin:40px auto; padding:0 16px;}
-  .quiz-card { background:#fff; border:1px solid var(--hairline); border-radius:var(--radius); padding:32px 24px; box-shadow:0 8px 30px rgba(18,32,61,.06); border-top: 4px solid var(--gold-bright); }
-  .hidden { display: none !important; }
-  
-  .btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:14px 22px; border-radius:12px; font-weight:600; font-size:14px; cursor:pointer; border:none; transition:all .2s ease;}
-  .btn:disabled{opacity: 0.5; cursor: not-allowed;}
-  .btn-gold{background:linear-gradient(145deg, #F7E9A0 0%, #E6C766 25%, #D4AF37 50%); color:var(--navy-deep); box-shadow:0 2px 4px rgba(0,0,0,.15);}
-  .btn-gold:active:not(:disabled){transform:scale(.97);}
+  h1,h2,.font-display{font-family:'Fraunces',serif;}
+  html[data-lang="as"] h1, html[data-lang="as"] h2, html[data-lang="as"] .font-display{font-family:'Noto Serif Bengali','Fraunces',serif;}
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  svg.ico{width:20px; height:20px; stroke:currentColor; fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0;}
 
-  .input-group { margin-bottom: 20px; }
-  .input-group label { display: block; font-weight: 600; color: var(--navy); margin-bottom: 8px; }
-  .quiz-input { width: 100%; background:#FBF8F1; border:1px solid var(--hairline); border-radius:10px; padding:14px; font-size:16px; }
-  .quiz-input:focus { outline:none; border-color:var(--gold); background:#fff; }
-  
-  .quiz-meta { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--hairline); padding-bottom: 16px; margin-bottom: 24px; }
-  .timer-badge { background: #FFF5F5; color: #D32F2F; padding: 6px 14px; border-radius: 20px; font-weight: 700; display: flex; gap: 6px; }
-  .timer-badge.urgent { background: #D32F2F; color: #FFF; animation: pulse 1s infinite; }
-  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+  /* Grain texture - desktop only, matches home page */
+  @media (min-width:768px){
+    body::after{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");opacity:.02;pointer-events:none;z-index:9999;}
+  }
 
-  .question-text { font-family: 'Fraunces', serif; font-size: 18px; color: var(--navy); font-weight: 600; margin-bottom: 24px; line-height: 1.5; }
-  html[data-lang="as"] .question-text { font-family: 'Noto Serif Bengali', serif; }
-  
-  .option-label { display: block; background: #FBF8F1; border: 1px solid var(--hairline); border-radius: 10px; padding: 16px; margin-bottom: 12px; cursor: pointer; font-weight: 500; transition: all 0.2s ease; }
-  .option-label:hover { background: #fff; border-color: var(--gold-pale); transform: translateX(4px);}
-  .option-label input { margin-right: 12px; accent-color: var(--gold); transform: scale(1.2); }
-  
-  #warningOverlay { position: fixed; top:0; left:0; width:100vw; height:100vh; background: rgba(211,47,47,0.95); color:white; z-index:9999; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:20px; }
+  .topbar{height:3px; background:linear-gradient(90deg, var(--navy-deep), var(--gold-bright), var(--gold), var(--gold-bright), var(--navy-deep)); background-size:200% 100%; animation:gradientMove 8s ease infinite;}
+  @keyframes gradientMove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 
-  .topbar{height:3px; background:linear-gradient(90deg, var(--navy-deep), var(--gold-bright), var(--gold), var(--gold-bright), var(--navy-deep)); background-size:200% 100%;}
-  header{position:sticky; top:0; z-index:50; background:rgba(11,21,38,.95); backdrop-filter:blur(12px); border-bottom:1px solid rgba(230,199,102,.18);}
-  .nav-inner{max-width:800px; margin:0 auto; padding:10px 14px; display:flex; align-items:center; justify-content:space-between;}
-  .brand{display:flex; align-items:center; gap:10px;}
-  .logo-frame{width:44px; height:44px; border-radius:50%; background:#fff; overflow:hidden;}
-  .brand img{width:100%; height:100%; object-fit:cover;}
+  /* ---------- HEADER (matches home page) ---------- */
+  header{position:sticky; top:0; z-index:50; background:rgba(11,21,38,.95); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid rgba(230,199,102,.18); transition:box-shadow .25s ease;}
+  header.scrolled{box-shadow:0 4px 20px rgba(0,0,0,.25);}
+  .nav-inner{max-width:var(--maxw); margin:0 auto; padding:10px 14px; display:flex; align-items:center; justify-content:space-between; gap:10px;}
+  .brand{display:flex; align-items:center; gap:10px; min-height:var(--touch-min);}
+  .logo-frame{width:44px; height:44px; border-radius:50%; background:#fff; flex-shrink:0; overflow:hidden;}
+  .brand img{width:100%; height:100%; border-radius:50%; object-fit:cover; display:block;}
   .brand-text{color:#fff; line-height:1.15;}
-  .brand-text b{font-family:'Fraunces',serif; font-size:13px; font-weight:600;}
+  .brand-text b{font-family:'Fraunces',serif; font-size:13px; letter-spacing:.01em; font-weight:600;}
   html[data-lang="as"] .brand-text b{font-family:'Noto Serif Bengali',serif;}
   .brand-text small{color:var(--gold-bright); font-size:8.5px; letter-spacing:.12em; text-transform:uppercase;}
-  .lang-toggle{position:relative; display:flex; align-items:center; width:68px; height:28px; border:1px solid rgba(230,199,102,.4); border-radius:16px; background:rgba(255,255,255,.03);}
+  nav.links{display:none; gap:22px; color:#EDEAE0; font-size:13px; font-weight:500;}
+  nav.links a{position:relative; padding-bottom:5px;}
+  nav.links a::after{content:''; position:absolute; left:0; bottom:0; width:0; height:1.5px; background:var(--gold-bright); transition:width .25s ease;}
+  nav.links a:hover{color:var(--gold-bright);}
+  nav.links a:hover::after{width:100%;}
+
+  .lang-toggle{position:relative; display:flex; align-items:center; width:68px; height:28px; border:1px solid rgba(230,199,102,.4); border-radius:16px; background:rgba(255,255,255,.03); flex-shrink:0;}
   .lang-toggle .slider{position:absolute; top:50%; left:2px; transform:translateY(-50%); width:32px; height:22px; background:var(--gold); border-radius:12px; transition:transform .25s ease, left .25s ease;}
   html[data-lang="as"] .lang-toggle .slider{left:calc(100% - 34px);}
-  .lang-toggle button{position:relative; z-index:1; flex:1; background:transparent; border:none; color:#CFCABB; font-size:10px; font-weight:700; cursor:pointer;}
+  .lang-toggle button{position:relative; z-index:1; flex:1; display:flex; align-items:center; justify-content:center; background:transparent; border:none; color:#CFCABB; font-size:10px; font-weight:700; cursor:pointer; letter-spacing:.03em; height:100%; padding:0;}
   .lang-toggle button.active{color:var(--navy-deep);}
+
+  /* ---------- BUTTONS (matches home page) ---------- */
+  .btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:14px 22px; border-radius:12px; font-weight:600; font-size:14px; cursor:pointer; border:1px solid transparent; transition:all .2s ease; min-height:var(--touch-min); touch-action:manipulation; letter-spacing:.01em;}
+  .btn:active:not(:disabled){transform:scale(.97); transition:transform .1s ease;}
+  .btn:disabled{opacity:.5; cursor:not-allowed;}
+  .btn-gold{background:linear-gradient(145deg, #F7E9A0 0%, #E6C766 25%, #D4AF37 50%, #C9A227 100%); color:var(--navy-deep); box-shadow:0 2px 4px rgba(0,0,0,.15), 0 8px 24px rgba(184,146,46,.25), inset 0 1px 0 rgba(255,255,255,.5), inset 0 -1px 0 rgba(0,0,0,.1); position:relative; overflow:hidden; text-shadow:0 1px 0 rgba(255,255,255,.2);}
+  .btn-gold::before{content:''; position:absolute; top:0; left:-100%; width:50%; height:100%; background:linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent); transition:left .6s ease;}
+  .btn-gold:active:not(:disabled){filter:brightness(1.05); box-shadow:0 1px 2px rgba(0,0,0,.2), 0 4px 12px rgba(184,146,46,.2), inset 0 1px 0 rgba(255,255,255,.5);}
+  .btn-outline{background:rgba(255,255,255,.9); border:1.5px solid var(--hairline); color:var(--navy);}
+  .btn .ico{width:16px; height:16px; flex-shrink:0;}
+
+  /* ---------- LAYOUT ---------- */
+  .wrap{max-width:var(--maxw); margin:32px auto; padding:0 16px; flex:1 0 auto; width:100%;}
+  .quiz-card{background:#fff; border:1px solid var(--hairline); border-radius:var(--radius); padding:26px 20px; box-shadow:0 2px 10px rgba(18,32,61,.04), 0 12px 30px rgba(18,32,61,.06); position:relative; overflow:hidden;}
+  .quiz-card::before{content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, var(--navy), var(--gold));}
+  .hidden{display:none !important;}
+
+  .eyebrow-row{display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:6px;}
+  .eyebrow-row .tick{width:20px; height:1.5px; background:var(--gold);}
+  .eyebrow{font-size:10.5px; letter-spacing:.15em; text-transform:uppercase; color:var(--gold); font-weight:700;}
+  .ace-line{font-family:'Fraunces',serif; font-style:italic; font-weight:500; color:var(--gold); font-size:13px; display:block; line-height:1.5; text-align:center;}
+
+  /* ---------- FORM (registration) ---------- */
+  .input-group{margin-bottom:18px;}
+  .input-group label{display:block; font-weight:600; color:var(--navy); margin-bottom:8px; font-size:13.5px;}
+  .quiz-input{width:100%; background:var(--paper); border:1px solid var(--hairline); border-radius:10px; padding:14px; font-size:16px; color:var(--ink); font-family:inherit; min-height:var(--touch-min); transition:border-color .2s ease, background .2s ease;}
+  .quiz-input:focus{outline:none; border-color:var(--gold); background:#fff;}
+  .quiz-input::placeholder{color:#9A9585;}
+  .quiz-input.invalid{border-color:#D32F2F; background:#FFF5F5;}
+  .quiz-input.invalid:focus{border-color:#D32F2F;}
+  .field-error{display:block; min-height:15px; color:#D32F2F; font-size:12px; font-weight:600; margin-top:6px; line-height:1.3;}
+
+  /* ---------- ACTIVE QUIZ ---------- */
+  .quiz-meta{display:flex; flex-direction:column; gap:10px; border-bottom:1px solid var(--hairline); padding-bottom:16px; margin-bottom:22px;}
+  .quiz-meta-row{display:flex; justify-content:space-between; align-items:center;}
+  #questionCounter{font-weight:700; color:var(--muted); font-size:13px; letter-spacing:.02em; text-transform:uppercase;}
+  .progress-track{width:100%; height:6px; background:var(--hairline); border-radius:4px; overflow:hidden;}
+  .progress-fill{height:100%; width:0%; background:linear-gradient(90deg, var(--navy), var(--gold)); border-radius:4px; transition:width .35s ease;}
+  .timer-badge{background:var(--gold-pale); color:#7A5A16; padding:6px 14px 6px 8px; border-radius:20px; font-weight:700; font-size:13px; display:flex; align-items:center; gap:8px; transition:background .2s ease, color .2s ease;}
+  .timer-badge.urgent{background:#D32F2F; color:#FFF; animation:pulse 1s infinite;}
+  .timer-ring{transform:rotate(-90deg); flex-shrink:0;}
+  .timer-ring-bg{fill:none; stroke:rgba(0,0,0,.12); stroke-width:3;}
+  .timer-ring-fg{fill:none; stroke:currentColor; stroke-width:3; stroke-linecap:round; transition:stroke-dashoffset 1s linear;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.7;}}
+
+  .question-text{font-family:'Fraunces',serif; font-size:17px; color:var(--navy); font-weight:600; margin-bottom:20px; line-height:1.5;}
+  html[data-lang="as"] .question-text{font-family:'Noto Serif Bengali',serif;}
+
+  .option-label{display:block; background:var(--paper); border:1px solid var(--hairline); border-radius:10px; padding:15px 16px; margin-bottom:10px; cursor:pointer; font-weight:500; font-size:14px; min-height:var(--touch-min); transition:background .2s ease, border-color .2s ease, transform .2s ease;}
+  .option-label:hover{background:#fff; border-color:var(--gold-pale); transform:translateX(3px);}
+  .option-label:active{background:#FBF3D9;}
+  .option-label input{margin-right:12px; accent-color:var(--gold); transform:scale(1.2);}
+
+  /* ---------- SECURITY OVERLAY ---------- */
+  #warningOverlay{position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(211,47,47,.96); color:#fff; z-index:9999; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:24px;}
+  #warningOverlay h1{font-size:34px; margin-bottom:16px; font-weight:600;}
+  #warningOverlay p{font-size:15px; margin-top:10px; max-width:420px; line-height:1.55;}
+  #warningOverlay .btn{margin-top:26px;}
+
+  /* ---------- COMPLETION ---------- */
+  #completionStep h2{color:var(--gold); font-size:22px;}
+  #finalScoreText{margin:18px 0; font-size:30px; color:var(--navy); font-weight:700;}
+  #completionStep p{color:var(--muted); margin-bottom:26px; font-size:14px;}
+
+  /* ---------- LOADING ---------- */
+  #loadingStep h2{font-size:19px; color:var(--navy);}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--navy-deep); border-top:1px solid rgba(230,199,102,.18); color:#8B8877; text-align:center; padding:26px 16px calc(26px + var(--safe-bottom)); font-size:11.5px; flex-shrink:0;}
+  footer .brand{justify-content:center; margin-bottom:10px;}
+  footer a{color:var(--gold-bright);}
+
+  /* ---------- EXAM MODE (active quiz: distraction-free full screen) ---------- */
+  body.exam-mode .topbar, body.exam-mode header, body.exam-mode footer{display:none;}
+  body.exam-mode .wrap{max-width:none; margin:0; width:100%; flex:1 0 auto; display:flex; align-items:center; justify-content:center; padding:16px;}
+  body.exam-mode .quiz-card{width:100%; max-width:640px;}
+
+  /* ---------- SMALL PHONES ---------- */
+  @media (max-width:359px){
+    body{font-size:14px;}
+    .quiz-card{padding:20px 14px;}
+    .question-text{font-size:16px;}
+    .brand-text b{font-size:11.5px;}
+    .logo-frame{width:40px; height:40px;}
+    #finalScoreText{font-size:24px;}
+    #warningOverlay h1{font-size:28px;}
+  }
+
+  /* ---------- TABLET / DESKTOP ---------- */
+  @media (min-width:480px){
+    .wrap{margin:44px auto;}
+    .quiz-card{padding:32px 28px;}
+  }
+  @media (min-width:768px){
+    body{font-size:16px;}
+    nav.links{display:flex;}
+    .brand-text b{font-size:15px;}
+    .brand-text small{font-size:9px;}
+    .wrap{margin:64px auto;}
+    .quiz-card{padding:40px 36px;}
+    #registrationStep{max-width:440px; margin:0 auto;}
+    .question-text{font-size:19px;}
+    .btn-gold::before{content:''; position:absolute; top:0; left:-100%; width:50%; height:100%; background:linear-gradient(90deg, transparent, rgba(255,255,255,.4), transparent); transition:left .6s ease;}
+    .btn-gold:hover::before{left:150%;}
+    .btn-gold:hover{box-shadow:0 4px 8px rgba(0,0,0,.2), 0 12px 32px rgba(184,146,46,.35), inset 0 1px 0 rgba(255,255,255,.5);}
+    .option-label:hover{transform:translateX(4px);}
+    footer{padding:32px 32px 36px;}
+  }
+  @media (min-width:1024px){
+    .wrap{margin:80px auto;}
+    :root{--maxw:960px;}
+  }
 </style>
 </head>
 <body>
 
 <div id="warningOverlay" class="hidden">
-    <h1 style="font-size: 40px; margin-bottom: 20px;">⚠️ WARNING</h1>
-    <h2 id="warningReason">You left the examination window.</h2>
-    <p style="font-size: 18px; margin-top: 10px;">Minimizing the browser, switching apps, or capturing the screen is prohibited.</p>
-    <p style="font-size: 18px; margin-top: 10px; font-weight:bold;">If you do this again, your test will be automatically submitted.</p>
-    <button class="btn" style="margin-top: 30px; background:white; color:black;" onclick="document.getElementById('warningOverlay').classList.add('hidden')">Return to Test</button>
+    <h1 class="font-display"><span lang-en>⚠️ WARNING</span><span lang-as>⚠️ সতৰ্কবাণী</span></h1>
+    <h2 id="warningReason" class="font-display" style="font-size:19px; font-weight:600;" role="alert" aria-live="assertive">You left the examination window.</h2>
+    <p><span lang-en>Minimizing the browser, switching apps, or capturing the screen is prohibited.</span><span lang-as>ব্ৰাউজাৰ মিনিমাইজ কৰা, এপ সলনি কৰা, বা স্ক্ৰীণ কেপচাৰ কৰা নিষিদ্ধ।</span></p>
+    <p style="font-weight:700;"><span lang-en>If you do this again, your test will be automatically submitted.</span><span lang-as>যদি আপুনি ইয়াক পুনৰ কৰে, আপোনাৰ পৰীক্ষা স্বয়ংক্ৰিয়ভাৱে জমা হৈ যাব।</span></p>
+    <button class="btn btn-outline" onclick="document.getElementById('warningOverlay').classList.add('hidden')"><span lang-en>Return to Test</span><span lang-as>পৰীক্ষালৈ উভতি যাওক</span></button>
 </div>
 
 <div class="topbar"></div>
 <header>
   <div class="nav-inner">
-    <div class="brand">
+    <a href="index.html" class="brand" aria-label="Aarohan Coaching of Excellence home">
       <div class="logo-frame"><img src="https://aarohanhsm.com/Aarohan_Logo.png" alt="ACE logo"></div>
       <div class="brand-text">
         <b lang-en>AAROHAN COACHING</b><b lang-as>আৰোহণ কোচিং</b><br>
         <small lang-en>Of Excellence</small><small lang-as>অৱ এক্সিলেন্স</small>
       </div>
-    </div>
+    </a>
+    <nav class="links">
+      <a href="index.html"><span>Home</span></span></a>
+      <a href="index.html#exams"><span>Courses</span></a>
+    </nav>
     <div class="lang-toggle" id="lang-toggle">
       <div class="slider"></div>
       <button data-set-lang="en" class="active">EN</button>
@@ -95,27 +233,32 @@
 
 <div class="wrap">
   <div class="quiz-card">
-    
-    <div id="loadingStep" style="text-align:center; padding:40px;">
-      <h2 class="font-display">Loading Environment...</h2>
+
+    <div id="loadingStep" style="text-align:center; padding:36px 8px;">
+      <h2 class="font-display"><span>Loading Environment...</span></h2>
     </div>
 
     <!-- Registration -->
     <div id="registrationStep" class="hidden">
-      <h2 class="font-display" style="text-align:center; margin-bottom:20px;">ACE Mock Test</h2>
+      <div class="eyebrow-row"><div class="tick"></div><span class="eyebrow"><span lang-en>Mock Test</span><span lang-as>মক পৰীক্ষা</span></span><div class="tick"></div></div>
+      <h2 class="font-display" style="text-align:center; margin-bottom:6px; font-size:21px;">ACE Quiz Challenge</h2>
+      <span class="ace-line" style="margin-bottom:22px;">Dream big. Work hard. ACE it.</span>
       <div class="input-group">
-        <label lang-en>Full Name</label><label lang-as>সম্পূৰ্ণ নাম</label>
-        <input type="text" id="name" class="quiz-input" required>
+        <label for="name"><span lang-en>Full Name</span><span lang-as>সম্পূৰ্ণ নাম</span></label>
+        <input type="text" id="name" class="quiz-input" placeholder="Full name / সম্পূৰ্ণ নাম" autocomplete="name" aria-describedby="name-err" required>
+        <span class="field-error" id="name-err" role="alert" aria-live="polite"></span>
       </div>
       <div class="input-group">
-        <label lang-en>Phone Number</label><label lang-as>ফোন নম্বৰ</label>
-        <input type="tel" id="phone" class="quiz-input" required>
+        <label for="phone"><span lang-en>Phone Number</span><span lang-as>ফোন নম্বৰ</span></label>
+        <input type="tel" id="phone" class="quiz-input" placeholder="10-digit mobile number" autocomplete="tel" inputmode="numeric" maxlength="10" aria-describedby="phone-err" required>
+        <span class="field-error" id="phone-err" role="alert" aria-live="polite"></span>
       </div>
       <div class="input-group">
-        <label lang-en>Registered Email</label><label lang-as>পঞ্জীয়নভুক্ত ইমেইল</label>
-        <input type="email" id="email" class="quiz-input" required>
+        <label for="email"><span lang-en>Email</span><span lang-as>ইমেইল</span></label>
+        <input type="email" id="email" class="quiz-input" placeholder="you@example.com" autocomplete="email" inputmode="email" aria-describedby="email-err" required>
+        <span class="field-error" id="email-err" role="alert" aria-live="polite"></span>
       </div>
-      <button id="startBtn" class="btn btn-gold" style="width: 100%;">
+      <button id="startBtn" class="btn btn-gold" style="width:100%;">
         <span lang-en>Begin Examination</span><span lang-as>পৰীক্ষা আৰম্ভ কৰক</span>
       </button>
     </div>
@@ -123,32 +266,55 @@
     <!-- Active Quiz -->
     <div id="quizStep" class="hidden">
       <div class="quiz-meta">
-        <div style="font-weight:bold; color:var(--muted); font-size: 14px;" id="questionCounter">Q 1</div>
-        <div class="timer-badge" id="timerDisplay">Time: <span id="timeText">--</span></div>
+        <div class="quiz-meta-row">
+          <div id="questionCounter" aria-live="polite">Q 1</div>
+          <div class="timer-badge" id="timerDisplay">
+            <svg class="timer-ring" viewBox="0 0 36 36" width="26" height="26" aria-hidden="true">
+              <circle class="timer-ring-bg" cx="18" cy="18" r="15.5"></circle>
+              <circle class="timer-ring-fg" id="timerRing" cx="18" cy="18" r="15.5" stroke-dasharray="97.39" stroke-dashoffset="0"></circle>
+            </svg>
+            <span id="timeText">--</span>
+          </div>
+        </div>
+        <div class="progress-track" role="progressbar" id="progressTrack" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
       </div>
-      <div class="question-text" id="questionText"></div>
+      <div class="question-text" id="questionText" tabindex="-1"></div>
       <div id="optionsContainer"></div>
-      <div style="margin-top: 24px; text-align: right;">
+      <div style="margin-top:22px; text-align:right;">
         <button id="nextBtn" class="btn btn-gold"><span lang-en>Next Question</span><span lang-as>পৰৱৰ্তী প্ৰশ্ন</span></button>
         <button id="submitBtn" class="btn btn-gold hidden"><span lang-en>Submit Exam</span><span lang-as>পৰীক্ষা জমা কৰক</span></button>
       </div>
     </div>
 
     <!-- Completion -->
-    <div id="completionStep" class="hidden" style="text-align:center; padding:40px;">
-      <h2 class="font-display" style="color:var(--gold);">Test Complete</h2>
-      <h1 id="finalScoreText" style="margin: 20px 0; font-size: 36px; color:var(--navy);"></h1>
-      <p style="color:var(--muted); margin-bottom: 30px;">
+    <div id="completionStep" class="hidden" style="text-align:center; padding:34px 8px;">
+      <h2 class="font-display"><span lang-en>Test Complete</span><span lang-as>পৰীক্ষা সম্পূৰ্ণ</span></h2>
+      <h1 id="finalScoreText" class="font-display"></h1>
+      <p>
         <span lang-en>Your answers have been securely submitted.</span>
         <span lang-as>আপোনাৰ উত্তৰসমূহ সুৰক্ষিতভাৱে জমা কৰা হৈছে।</span>
       </p>
-      <button id="exitBtn" class="btn btn-gold" style="width: 100%; max-width: 300px; margin: 0 auto;">
+      <button id="exitBtn" class="btn btn-gold" style="width:100%; max-width:300px; margin:0 auto;">
         <span lang-en>Click Here to Exit</span>
-        <span lang-as>প্ৰস্থান কৰিবলৈ ইয়াত ক্লিক কৰক</span>
+        <span lang-as>Exit কৰিবলৈ ইয়াত ক্লিক কৰক</span>
       </button>
     </div>
   </div>
 </div>
+
+<footer>
+  <div class="brand" style="display:flex; align-items:center; gap:10px;">
+    <div class="logo-frame" style="width:32px;height:32px;">
+      <img src="https://aarohanhsm.com/Aarohan_Logo.png" alt="ACE logo">
+    </div>
+    <div class="brand-text" style="color:#CFCABE;">
+      <b style="color:#fff;" lang-en>Aarohan Coaching of Excellence</b><b style="color:#fff;" lang-as>আৰোহণ কোচিং অৱ এক্সিলেন্স</b>
+    </div>
+  </div>
+  <p><a href="index.html"><span>← Back to home</span></a></p>
+</footer>
 
 <script>
     // PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE 👇
@@ -159,43 +325,124 @@
       document.querySelectorAll('[data-set-lang]').forEach(b=>{
         b.classList.toggle('active', b.getAttribute('data-set-lang') === lang);
       });
+      try{ localStorage.setItem('ace-lang', lang); }catch(e){}
     }
     document.querySelectorAll('[data-set-lang]').forEach(btn=>{
       btn.addEventListener('click', ()=> applyLang(btn.getAttribute('data-set-lang')));
     });
+    try{
+      const savedLang = localStorage.getItem('ace-lang');
+      if(savedLang === 'as' || savedLang === 'en') applyLang(savedLang);
+    }catch(e){}
+
+    // Header elevation on scroll (matches home page)
+    const siteHeader = document.querySelector('header');
+    window.addEventListener('scroll', ()=>{
+      siteHeader.classList.toggle('scrolled', window.scrollY > 8);
+    }, {passive:true});
 
     let quizConfig = {}, quizQuestions = [], currentQuestionIndex = 0;
     let userAnswers = {}, deviceId = "ACE_" + Math.random().toString(36).substring(2, 15);
     let timerInterval, secondsRemaining, startTime;
     let tabSwitchCount = 0, quizIsActive = false;
+    let examStatusInterval = null;
     const MAX_SWITCHES = 2;
+    const STORAGE_KEY = 'ace_quiz_progress_v1';
+    const RING_CIRCUMFERENCE = 2 * Math.PI * 15.5;
+    const STALE_MS = 3 * 60 * 60 * 1000; // ignore saved progress older than 3 hours
 
-    function handleSecurityViolation(reason) {
+    function saveProgress() {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                name: (document.getElementById('name') || {}).value || '',
+                phone: (document.getElementById('phone') || {}).value || '',
+                email: (document.getElementById('email') || {}).value || '',
+                deviceId, currentQuestionIndex, userAnswers, tabSwitchCount, startTime,
+                savedAt: Date.now()
+            }));
+        } catch (e) {}
+    }
+
+    function clearProgress() {
+        try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+    }
+
+    function loadProgress() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) return null;
+            const data = JSON.parse(raw);
+            if (!data.savedAt || Date.now() - data.savedAt > STALE_MS) { clearProgress(); return null; }
+            return data;
+        } catch (e) { return null; }
+    }
+
+    window.addEventListener('beforeunload', (e) => {
+        if (quizIsActive) {
+            e.preventDefault();
+            e.returnValue = '';
+        }
+    });
+
+    function startExamStatusPolling() {
+        clearInterval(examStatusInterval);
+        examStatusInterval = setInterval(() => {
+            if (!quizIsActive) { clearInterval(examStatusInterval); return; }
+            fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "getQuizData" }) })
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.active && quizIsActive) {
+                        clearInterval(examStatusInterval);
+                        const isAs = document.documentElement.getAttribute('data-lang') === 'as';
+                        alert(isAs ?
+                            "This exam has been closed by the administrator. আপোনাৰ উত্তৰ এতিয়া জমা কৰা হ'ব।" :
+                            "This exam has been closed by the administrator. Your answers will be submitted now.");
+                        triggerSubmission();
+                    }
+                })
+                .catch(() => {}); // ignore transient network errors mid-exam
+        }, 60000);
+    }
+
+    function handleSecurityViolation(reasonEn, reasonAs) {
         if (!quizIsActive) return;
         tabSwitchCount++;
-        
+        const isAs = document.documentElement.getAttribute('data-lang') === 'as';
+        const reason = isAs ? reasonAs : reasonEn;
+
         if (tabSwitchCount >= MAX_SWITCHES) {
-            alert(`Security Violation: Test terminated due to ${reason}.`);
+            alert(isAs ? `Security Violation: ${reason}ৰ বাবে পৰীক্ষা সমাপ্ত কৰা হ'ল।` : `Security Violation: Test terminated due to ${reason}.`);
             triggerSubmission(); 
         } else {
             const overlay = document.getElementById('warningOverlay');
-            document.getElementById('warningReason').innerText = `Warning: ${reason}`;
+            document.getElementById('warningReason').innerText = isAs ? `সতৰ্কবাণী: ${reason}` : `Warning: ${reason}`;
             overlay.classList.remove('hidden');
         }
     }
 
     document.addEventListener('visibilitychange', () => {
-        if (document.hidden) handleSecurityViolation("minimizing or switching apps");
+        if (document.hidden) handleSecurityViolation("minimizing or switching apps", "এপ মিনিমাইজ বা সলনি কৰা");
     });
     
+    let blurTimeout = null;
     window.addEventListener('blur', () => {
-        handleSecurityViolation("screen unfocused (possible screen capture)");
+        if (!quizIsActive) return;
+        clearTimeout(blurTimeout);
+        blurTimeout = setTimeout(() => {
+            if (!document.hasFocus()) {
+                handleSecurityViolation("screen unfocused (possible screen capture)", "screen unfocused (সম্ভাৱ্য স্ক্ৰীণ কেপচাৰ)");
+            }
+        }, 700);
+    });
+
+    window.addEventListener('focus', () => {
+        clearTimeout(blurTimeout);
     });
 
     document.addEventListener('keyup', (e) => {
         if (e.key === 'PrintScreen') {
             try { navigator.clipboard.writeText(''); } catch(e){} 
-            handleSecurityViolation("PrintScreen key detected");
+            handleSecurityViolation("PrintScreen key detected", "PrintScreen কী চিনাক্ত কৰা হৈছে");
         }
     });
 
@@ -229,29 +476,120 @@
         })
         .then(res => res.json())
         .then(data => {
+            const isAs = document.documentElement.getAttribute('data-lang') === 'as';
             if (!data.active) {
-                return document.getElementById('loadingStep').innerHTML = "<h2 style='color:#D32F2F;'>Exam Closed</h2>";
+                return document.getElementById('loadingStep').innerHTML = `<h2 class='font-display' style='color:#D32F2F;'>${isAs ? 'পৰীক্ষা বন্ধ আছে' : 'Exam Closed'}</h2>`;
             }
             quizConfig = data.config;
             quizQuestions = data.questions;
+
+            const saved = loadProgress();
+            if (saved && typeof saved.currentQuestionIndex === 'number' && quizQuestions.length) {
+                const resume = confirm(isAs ?
+                    "আপোনাৰ এটা অসম্পূৰ্ণ প্ৰচেষ্টা পোৱা গৈছে। আপুনি য'ত এৰিছিল তাৰ পৰা আৰম্ভ কৰিব বিচাৰেনে?" :
+                    "We found an unfinished attempt. Resume where you left off?");
+                if (resume) {
+                    document.getElementById('name').value = saved.name || '';
+                    document.getElementById('phone').value = saved.phone || '';
+                    document.getElementById('email').value = saved.email || '';
+                    if (saved.deviceId) deviceId = saved.deviceId;
+                    userAnswers = saved.userAnswers || {};
+                    currentQuestionIndex = Math.min(saved.currentQuestionIndex, quizQuestions.length - 1);
+                    tabSwitchCount = saved.tabSwitchCount || 0;
+                    startTime = saved.startTime || Date.now();
+
+                    document.getElementById('loadingStep').classList.add('hidden');
+                    document.getElementById('registrationStep').classList.add('hidden');
+                    document.getElementById('quizStep').classList.remove('hidden');
+                    document.body.classList.add('exam-mode');
+                    quizIsActive = true;
+                    startExamStatusPolling();
+                    const elem = document.documentElement;
+                    if (elem.requestFullscreen) elem.requestFullscreen().catch(e => {});
+                    renderQuestion();
+                    return;
+                } else {
+                    clearProgress();
+                }
+            }
+
             document.getElementById('loadingStep').classList.add('hidden');
             document.getElementById('registrationStep').classList.remove('hidden');
         })
         .catch(error => {
             console.error(error);
-            document.getElementById('loadingStep').innerHTML = "<h2 style='color:#D32F2F;'>Connection Error. Please refresh.</h2>";
+            const isAs = document.documentElement.getAttribute('data-lang') === 'as';
+            document.getElementById('loadingStep').innerHTML = `<h2 class='font-display' style='color:#D32F2F;'>${isAs ? 'Connection Error. অনুগ্ৰহ কৰি ৰিফ্ৰেশ কৰক।' : 'Connection Error. Please refresh.'}</h2>`;
         });
     };
 
+    // Field validators
+    function isValidName(v){
+        const t = v.trim();
+        return t.length >= 2 && /^[A-Za-z\u0980-\u09FF][A-Za-z\u0980-\u09FF\s.'-]*$/.test(t);
+    }
+    function isValidPhone(v){
+        return /^[6-9]\d{9}$/.test(v.trim());
+    }
+    function isValidEmail(v){
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+    }
+    const validators = { name: isValidName, phone: isValidPhone, email: isValidEmail };
+
+    function fieldErrorText(key){
+        const isAs = document.documentElement.getAttribute('data-lang') === 'as';
+        const msgs = {
+            name:  ["Please enter your full name.", "অনুগ্ৰহ কৰি আপোনাৰ সম্পূৰ্ণ নাম দিয়ক।"],
+            phone: ["Enter a valid 10-digit mobile number.", "১০ সংখ্যাৰ বৈধ ফোন নম্বৰ দিয়ক।"],
+            email: ["Enter a valid email address.", "বৈধ ইমেইল ঠিকনা দিয়ক।"]
+        };
+        return isAs ? msgs[key][1] : msgs[key][0];
+    }
+
+    function validateField(id){
+        const input = document.getElementById(id);
+        const errEl = document.getElementById(id + '-err');
+        const ok = validators[id](input.value);
+        if (!ok) {
+            input.classList.add('invalid');
+            if (errEl) errEl.textContent = fieldErrorText(id);
+        } else {
+            input.classList.remove('invalid');
+            if (errEl) errEl.textContent = '';
+        }
+        return ok;
+    }
+
+    ['name', 'phone', 'email'].forEach(id => {
+        const input = document.getElementById(id);
+        input.addEventListener('blur', () => validateField(id));
+        input.addEventListener('input', () => {
+            if (input.classList.contains('invalid') && validators[id](input.value)) {
+                input.classList.remove('invalid');
+                const errEl = document.getElementById(id + '-err');
+                if (errEl) errEl.textContent = '';
+            }
+        });
+    });
+
     // 2. Check Duplicate via Fetch API
     document.getElementById('startBtn').addEventListener('click', () => {
-        const name = document.getElementById('name').value.trim().toUpperCase();
-        const phone = document.getElementById('phone').value.trim();
-        const email = document.getElementById('email').value.trim().toLowerCase();
-        
-        if (!name || !phone || !email.includes('@')) {
-            return alert(document.documentElement.getAttribute('data-lang') === 'as' ? "অনুগ্ৰহ কৰি সকলো তথ্য শুদ্ধকৈ পূৰণ কৰক।" : "Please fill in all details correctly.");
+        const nameInput = document.getElementById('name');
+        const phoneInput = document.getElementById('phone');
+        const emailInput = document.getElementById('email');
+
+        const nameOk = validateField('name');
+        const phoneOk = validateField('phone');
+        const emailOk = validateField('email');
+
+        if (!nameOk || !phoneOk || !emailOk) {
+            (!nameOk ? nameInput : !phoneOk ? phoneInput : emailInput).focus();
+            return;
         }
+
+        const name = nameInput.value.trim().toUpperCase();
+        const phone = phoneInput.value.trim();
+        const email = emailInput.value.trim().toLowerCase();
 
         const confirmStart = confirm(document.documentElement.getAttribute('data-lang') === 'as' ? 
             "⚠️ সতৰ্কবাণী: পৰীক্ষাৰ সময়ত অনুগ্ৰহ কৰি ব্ৰাউজাৰ মিনিমাইজ নকৰিব, স্ক্ৰীণৰ পৰা আঁতৰি নাযাব বা আন এপলৈ নাযাব। তেনে কৰিলে পৰীক্ষা স্বয়ংক্ৰিয়ভাৱে জমা হৈ যাব। আপুনি আৰম্ভ কৰিবলৈ প্ৰস্তুত নে?" : 
@@ -275,20 +613,24 @@
         .then(response => {
             if (response.isDuplicate) {
                 alert(document.documentElement.getAttribute('data-lang') === 'as' ? 
-                  "প্ৰৱেশ নিষিদ্ধ: আপুনি ইতিমধ্যে এই পৰীক্ষা দিছে।" : 
+                  "Access Denied: আপুনি ইতিমধ্যে এই পৰীক্ষা দিছে।" : 
                   "Access Denied: You have already attempted this exam from this device or email.");
+                document.body.classList.remove('exam-mode');
                 startBtn.disabled = false;
                 startBtn.innerHTML = `<span lang-en>Begin Examination</span><span lang-as>পৰীক্ষা আৰম্ভ কৰক</span>`;
             } else {
+                document.body.classList.add('exam-mode');
                 document.getElementById('registrationStep').classList.add('hidden');
                 document.getElementById('quizStep').classList.remove('hidden');
                 quizIsActive = true;
                 startTime = Date.now(); 
+                startExamStatusPolling();
                 renderQuestion();
             }
         })
         .catch(err => {
             alert("Verification failed. Please check your internet connection.");
+            document.body.classList.remove('exam-mode');
             startBtn.disabled = false;
             startBtn.innerHTML = `<span lang-en>Begin Examination</span><span lang-as>পৰীক্ষা আৰম্ভ কৰক</span>`;
         });
@@ -297,7 +639,15 @@
     function renderQuestion() {
         const q = quizQuestions[currentQuestionIndex];
         document.getElementById('questionCounter').innerText = `Q ${currentQuestionIndex + 1} / ${quizQuestions.length}`;
-        document.getElementById('questionText').innerHTML = q.text.replace(/\n/g, '<br><br>');
+
+        const pct = Math.round(((currentQuestionIndex) / quizQuestions.length) * 100);
+        const progressFill = document.getElementById('progressFill');
+        const progressTrack = document.getElementById('progressTrack');
+        if (progressFill) progressFill.style.width = pct + '%';
+        if (progressTrack) progressTrack.setAttribute('aria-valuenow', pct);
+
+        const questionTextEl = document.getElementById('questionText');
+        questionTextEl.innerHTML = q.text.replace(/\n/g, '<br><br>');
         
         document.getElementById('optionsContainer').innerHTML = q.options.map(opt => `
             <label class="option-label">
@@ -309,7 +659,9 @@
             document.getElementById('nextBtn').classList.add('hidden');
             document.getElementById('submitBtn').classList.remove('hidden');
         }
+        saveProgress();
         startTimer();
+        questionTextEl.focus();
     }
 
     function startTimer() {
@@ -331,6 +683,13 @@
         document.getElementById('timeText').innerText = `${secondsRemaining}s`;
         const badge = document.getElementById('timerDisplay');
         secondsRemaining <= 10 ? badge.classList.add('urgent') : badge.classList.remove('urgent');
+
+        const ring = document.getElementById('timerRing');
+        if (ring) {
+            const total = quizConfig.timePerQuestion || 40;
+            const fraction = Math.max(0, Math.min(1, secondsRemaining / total));
+            ring.style.strokeDashoffset = RING_CIRCUMFERENCE * (1 - fraction);
+        }
     }
 
     function saveCurrentAnswer(isAutoAdvance = false) {
@@ -365,6 +724,9 @@
     function triggerSubmission() {
         quizIsActive = false; 
         clearInterval(timerInterval);
+        clearInterval(examStatusInterval);
+        const progressFill = document.getElementById('progressFill');
+        if (progressFill) progressFill.style.width = '100%';
         const submitBtn = document.getElementById('submitBtn');
         submitBtn.disabled = true;
         submitBtn.innerHTML = `<span lang-en>Submitting...</span><span lang-as>জমা দিয়া হৈছে...</span>`;
@@ -381,12 +743,22 @@
             answers: userAnswers
         };
 
+        submitQuizWithRetry(payload, 1);
+    }
+
+    const MAX_SUBMIT_ATTEMPTS = 3;
+
+    function submitQuizWithRetry(payload, attempt) {
+        const submitBtn = document.getElementById('submitBtn');
+        const isAs = document.documentElement.getAttribute('data-lang') === 'as';
+
         fetch(SCRIPT_URL, {
             method: "POST",
             body: JSON.stringify({ action: "submitQuiz", payload: payload })
         })
         .then(res => res.json())
         .then(result => {
+            clearProgress();
             document.getElementById('quizStep').classList.add('hidden');
             document.getElementById('completionStep').classList.remove('hidden');
 
@@ -400,13 +772,25 @@
             }
         })
         .catch(err => {
-            alert("Submission failed. Check connection.");
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = `<span lang-en>Submit Exam</span><span lang-as>পৰীক্ষা জমা কৰক</span>`;
+            if (attempt < MAX_SUBMIT_ATTEMPTS) {
+                submitBtn.innerHTML = isAs ?
+                    `পুনৰ চেষ্টা কৰা হৈছে... (${attempt + 1}/${MAX_SUBMIT_ATTEMPTS})` :
+                    `Retrying submission... (${attempt + 1}/${MAX_SUBMIT_ATTEMPTS})`;
+                setTimeout(() => submitQuizWithRetry(payload, attempt + 1), 1500 * attempt);
+            } else {
+                alert(isAs ?
+                    "Submission failed. আপোনাৰ উত্তৰ ইয়াতে সুৰক্ষিত আছে — check your connection and tap Submit again." :
+                    "Submission failed. Your answers are saved here — check your connection and tap Submit again.");
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<span lang-en>Retry Submit</span><span lang-as>পুনৰ জমা কৰক</span>`;
+            }
         });
     }
 
     document.getElementById('exitBtn').addEventListener('click', () => {
+        document.body.classList.remove('exam-mode');
+        if (document.exitFullscreen) document.exitFullscreen().catch(e => {});
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
         window.location.href = "index.html";
     });
 </script>
