@@ -118,10 +118,16 @@
   .field-error{display:block; min-height:15px; color:#D32F2F; font-size:12px; font-weight:600; margin-top:6px; line-height:1.3;}
 
   /* ---------- ACTIVE QUIZ ---------- */
-  .quiz-meta{display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--hairline); padding-bottom:16px; margin-bottom:22px;}
+  .quiz-meta{display:flex; flex-direction:column; gap:10px; border-bottom:1px solid var(--hairline); padding-bottom:16px; margin-bottom:22px;}
+  .quiz-meta-row{display:flex; justify-content:space-between; align-items:center;}
   #questionCounter{font-weight:700; color:var(--muted); font-size:13px; letter-spacing:.02em; text-transform:uppercase;}
-  .timer-badge{background:var(--gold-pale); color:#7A5A16; padding:7px 14px; border-radius:20px; font-weight:700; font-size:13px; display:flex; align-items:center; gap:6px; transition:background .2s ease, color .2s ease;}
+  .progress-track{width:100%; height:6px; background:var(--hairline); border-radius:4px; overflow:hidden;}
+  .progress-fill{height:100%; width:0%; background:linear-gradient(90deg, var(--navy), var(--gold)); border-radius:4px; transition:width .35s ease;}
+  .timer-badge{background:var(--gold-pale); color:#7A5A16; padding:6px 14px 6px 8px; border-radius:20px; font-weight:700; font-size:13px; display:flex; align-items:center; gap:8px; transition:background .2s ease, color .2s ease;}
   .timer-badge.urgent{background:#D32F2F; color:#FFF; animation:pulse 1s infinite;}
+  .timer-ring{transform:rotate(-90deg); flex-shrink:0;}
+  .timer-ring-bg{fill:none; stroke:rgba(0,0,0,.12); stroke-width:3;}
+  .timer-ring-fg{fill:none; stroke:currentColor; stroke-width:3; stroke-linecap:round; transition:stroke-dashoffset 1s linear;}
   @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.7;}}
 
   .question-text{font-family:'Fraunces',serif; font-size:17px; color:var(--navy); font-weight:600; margin-bottom:20px; line-height:1.5;}
@@ -150,6 +156,11 @@
   footer{background:var(--navy-deep); border-top:1px solid rgba(230,199,102,.18); color:#8B8877; text-align:center; padding:26px 16px calc(26px + var(--safe-bottom)); font-size:11.5px; flex-shrink:0;}
   footer .brand{justify-content:center; margin-bottom:10px;}
   footer a{color:var(--gold-bright);}
+
+  /* ---------- EXAM MODE (active quiz: distraction-free full screen) ---------- */
+  body.exam-mode .topbar, body.exam-mode header, body.exam-mode footer{display:none;}
+  body.exam-mode .wrap{max-width:none; margin:0; width:100%; flex:1 0 auto; display:flex; align-items:center; justify-content:center; padding:16px;}
+  body.exam-mode .quiz-card{width:100%; max-width:640px;}
 
   /* ---------- SMALL PHONES ---------- */
   @media (max-width:359px){
@@ -192,7 +203,7 @@
 
 <div id="warningOverlay" class="hidden">
     <h1 class="font-display"><span lang-en>⚠️ WARNING</span><span lang-as>⚠️ সতৰ্কবাণী</span></h1>
-    <h2 id="warningReason" class="font-display" style="font-size:19px; font-weight:600;">You left the examination window.</h2>
+    <h2 id="warningReason" class="font-display" style="font-size:19px; font-weight:600;" role="alert" aria-live="assertive">You left the examination window.</h2>
     <p><span lang-en>Minimizing the browser, switching apps, or capturing the screen is prohibited.</span><span lang-as>ব্ৰাউজাৰ মিনিমাইজ কৰা, এপ সলনি কৰা, বা স্ক্ৰীণ কেপচাৰ কৰা নিষিদ্ধ।</span></p>
     <p style="font-weight:700;"><span lang-en>If you do this again, your test will be automatically submitted.</span><span lang-as>যদি আপুনি ইয়াক পুনৰ কৰে, আপোনাৰ পৰীক্ষা স্বয়ংক্ৰিয়ভাৱে জমা হৈ যাব।</span></p>
     <button class="btn btn-outline" onclick="document.getElementById('warningOverlay').classList.add('hidden')"><span lang-en>Return to Test</span><span lang-as>পৰীক্ষালৈ উভতি যাওক</span></button>
@@ -209,7 +220,7 @@
       </div>
     </a>
     <nav class="links">
-      <a href="index.html"><span>Home</span></a>
+      <a href="index.html"><span>Home</span></span></a>
       <a href="index.html#exams"><span>Courses</span></a>
     </nav>
     <div class="lang-toggle" id="lang-toggle">
@@ -224,7 +235,7 @@
   <div class="quiz-card">
 
     <div id="loadingStep" style="text-align:center; padding:36px 8px;">
-      <h2 class="font-display"><span lang-en>Loading Environment...</span><span lang-as>পৰিৱেশ প্ৰস্তুত কৰা হৈছে...</span></h2>
+      <h2 class="font-display"><span>Loading Environment...</span></h2>
     </div>
 
     <!-- Registration -->
@@ -234,18 +245,18 @@
       <span class="ace-line" style="margin-bottom:22px;">Dream big. Work hard. ACE it.</span>
       <div class="input-group">
         <label for="name"><span lang-en>Full Name</span><span lang-as>সম্পূৰ্ণ নাম</span></label>
-        <input type="text" id="name" class="quiz-input" placeholder="Full name" autocomplete="name" required>
-        <span class="field-error" id="name-err" aria-live="polite"></span>
+        <input type="text" id="name" class="quiz-input" placeholder="Full name / সম্পূৰ্ণ নাম" autocomplete="name" aria-describedby="name-err" required>
+        <span class="field-error" id="name-err" role="alert" aria-live="polite"></span>
       </div>
       <div class="input-group">
         <label for="phone"><span lang-en>Phone Number</span><span lang-as>ফোন নম্বৰ</span></label>
-        <input type="tel" id="phone" class="quiz-input" placeholder="10-digit mobile number" autocomplete="tel" inputmode="numeric" maxlength="10" required>
-        <span class="field-error" id="phone-err" aria-live="polite"></span>
+        <input type="tel" id="phone" class="quiz-input" placeholder="10-digit mobile number" autocomplete="tel" inputmode="numeric" maxlength="10" aria-describedby="phone-err" required>
+        <span class="field-error" id="phone-err" role="alert" aria-live="polite"></span>
       </div>
       <div class="input-group">
         <label for="email"><span lang-en>Email</span><span lang-as>ইমেইল</span></label>
-        <input type="email" id="email" class="quiz-input" placeholder="you@example.com" autocomplete="email" inputmode="email" required>
-        <span class="field-error" id="email-err" aria-live="polite"></span>
+        <input type="email" id="email" class="quiz-input" placeholder="you@example.com" autocomplete="email" inputmode="email" aria-describedby="email-err" required>
+        <span class="field-error" id="email-err" role="alert" aria-live="polite"></span>
       </div>
       <button id="startBtn" class="btn btn-gold" style="width:100%;">
         <span lang-en>Begin Examination</span><span lang-as>পৰীক্ষা আৰম্ভ কৰক</span>
@@ -255,10 +266,21 @@
     <!-- Active Quiz -->
     <div id="quizStep" class="hidden">
       <div class="quiz-meta">
-        <div id="questionCounter">Q 1</div>
-        <div class="timer-badge" id="timerDisplay">Time: <span id="timeText">--</span></div>
+        <div class="quiz-meta-row">
+          <div id="questionCounter" aria-live="polite">Q 1</div>
+          <div class="timer-badge" id="timerDisplay">
+            <svg class="timer-ring" viewBox="0 0 36 36" width="26" height="26" aria-hidden="true">
+              <circle class="timer-ring-bg" cx="18" cy="18" r="15.5"></circle>
+              <circle class="timer-ring-fg" id="timerRing" cx="18" cy="18" r="15.5" stroke-dasharray="97.39" stroke-dashoffset="0"></circle>
+            </svg>
+            <span id="timeText">--</span>
+          </div>
+        </div>
+        <div class="progress-track" role="progressbar" id="progressTrack" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
       </div>
-      <div class="question-text" id="questionText"></div>
+      <div class="question-text" id="questionText" tabindex="-1"></div>
       <div id="optionsContainer"></div>
       <div style="margin-top:22px; text-align:right;">
         <button id="nextBtn" class="btn btn-gold"><span lang-en>Next Question</span><span lang-as>পৰৱৰ্তী প্ৰশ্ন</span></button>
@@ -268,11 +290,11 @@
 
     <!-- Completion -->
     <div id="completionStep" class="hidden" style="text-align:center; padding:34px 8px;">
-      <h2 class="font-display"><span lang-en>Quiz Complete</span><span lang-as>পৰীক্ষা সম্পূৰ্ণ</span></h2>
+      <h2 class="font-display"><span lang-en>Test Complete</span><span lang-as>পৰীক্ষা সম্পূৰ্ণ</span></h2>
       <h1 id="finalScoreText" class="font-display"></h1>
       <p>
-        <span lang-en>Your answers have been securely submitted for the quiz.</span>
-        <span lang-as>আপোনাৰ উত্তৰসমূহ সুৰক্ষিতভাৱে পৰীক্ষাৰ বাবে জমা কৰা হৈছে।</span>
+        <span lang-en>Your answers have been securely submitted.</span>
+        <span lang-as>আপোনাৰ উত্তৰসমূহ সুৰক্ষিতভাৱে জমা কৰা হৈছে।</span>
       </p>
       <button id="exitBtn" class="btn btn-gold" style="width:100%; max-width:300px; margin:0 auto;">
         <span lang-en>Click Here to Exit</span>
@@ -323,7 +345,64 @@
     let userAnswers = {}, deviceId = "ACE_" + Math.random().toString(36).substring(2, 15);
     let timerInterval, secondsRemaining, startTime;
     let tabSwitchCount = 0, quizIsActive = false;
+    let examStatusInterval = null;
     const MAX_SWITCHES = 2;
+    const STORAGE_KEY = 'ace_quiz_progress_v1';
+    const RING_CIRCUMFERENCE = 2 * Math.PI * 15.5;
+    const STALE_MS = 3 * 60 * 60 * 1000; // ignore saved progress older than 3 hours
+
+    function saveProgress() {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                name: (document.getElementById('name') || {}).value || '',
+                phone: (document.getElementById('phone') || {}).value || '',
+                email: (document.getElementById('email') || {}).value || '',
+                deviceId, currentQuestionIndex, userAnswers, tabSwitchCount, startTime,
+                savedAt: Date.now()
+            }));
+        } catch (e) {}
+    }
+
+    function clearProgress() {
+        try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+    }
+
+    function loadProgress() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) return null;
+            const data = JSON.parse(raw);
+            if (!data.savedAt || Date.now() - data.savedAt > STALE_MS) { clearProgress(); return null; }
+            return data;
+        } catch (e) { return null; }
+    }
+
+    window.addEventListener('beforeunload', (e) => {
+        if (quizIsActive) {
+            e.preventDefault();
+            e.returnValue = '';
+        }
+    });
+
+    function startExamStatusPolling() {
+        clearInterval(examStatusInterval);
+        examStatusInterval = setInterval(() => {
+            if (!quizIsActive) { clearInterval(examStatusInterval); return; }
+            fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "getQuizData" }) })
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.active && quizIsActive) {
+                        clearInterval(examStatusInterval);
+                        const isAs = document.documentElement.getAttribute('data-lang') === 'as';
+                        alert(isAs ?
+                            "This exam has been closed by the administrator. আপোনাৰ উত্তৰ এতিয়া জমা কৰা হ'ব।" :
+                            "This exam has been closed by the administrator. Your answers will be submitted now.");
+                        triggerSubmission();
+                    }
+                })
+                .catch(() => {}); // ignore transient network errors mid-exam
+        }, 60000);
+    }
 
     function handleSecurityViolation(reasonEn, reasonAs) {
         if (!quizIsActive) return;
@@ -345,8 +424,19 @@
         if (document.hidden) handleSecurityViolation("minimizing or switching apps", "এপ মিনিমাইজ বা সলনি কৰা");
     });
     
+    let blurTimeout = null;
     window.addEventListener('blur', () => {
-        handleSecurityViolation("screen unfocused (possible screen capture)", "screen unfocused (সম্ভাৱ্য স্ক্ৰীণ কেপচাৰ)");
+        if (!quizIsActive) return;
+        clearTimeout(blurTimeout);
+        blurTimeout = setTimeout(() => {
+            if (!document.hasFocus()) {
+                handleSecurityViolation("screen unfocused (possible screen capture)", "screen unfocused (সম্ভাৱ্য স্ক্ৰীণ কেপচাৰ)");
+            }
+        }, 700);
+    });
+
+    window.addEventListener('focus', () => {
+        clearTimeout(blurTimeout);
     });
 
     document.addEventListener('keyup', (e) => {
@@ -392,13 +482,44 @@
             }
             quizConfig = data.config;
             quizQuestions = data.questions;
+
+            const saved = loadProgress();
+            if (saved && typeof saved.currentQuestionIndex === 'number' && quizQuestions.length) {
+                const resume = confirm(isAs ?
+                    "আপোনাৰ এটা অসম্পূৰ্ণ প্ৰচেষ্টা পোৱা গৈছে। আপুনি য'ত এৰিছিল তাৰ পৰা আৰম্ভ কৰিব বিচাৰেনে?" :
+                    "We found an unfinished attempt. Resume where you left off?");
+                if (resume) {
+                    document.getElementById('name').value = saved.name || '';
+                    document.getElementById('phone').value = saved.phone || '';
+                    document.getElementById('email').value = saved.email || '';
+                    if (saved.deviceId) deviceId = saved.deviceId;
+                    userAnswers = saved.userAnswers || {};
+                    currentQuestionIndex = Math.min(saved.currentQuestionIndex, quizQuestions.length - 1);
+                    tabSwitchCount = saved.tabSwitchCount || 0;
+                    startTime = saved.startTime || Date.now();
+
+                    document.getElementById('loadingStep').classList.add('hidden');
+                    document.getElementById('registrationStep').classList.add('hidden');
+                    document.getElementById('quizStep').classList.remove('hidden');
+                    document.body.classList.add('exam-mode');
+                    quizIsActive = true;
+                    startExamStatusPolling();
+                    const elem = document.documentElement;
+                    if (elem.requestFullscreen) elem.requestFullscreen().catch(e => {});
+                    renderQuestion();
+                    return;
+                } else {
+                    clearProgress();
+                }
+            }
+
             document.getElementById('loadingStep').classList.add('hidden');
             document.getElementById('registrationStep').classList.remove('hidden');
         })
         .catch(error => {
             console.error(error);
             const isAs = document.documentElement.getAttribute('data-lang') === 'as';
-            document.getElementById('loadingStep').innerHTML = `<h2 class='font-display' style='color:#D32F2F;'>${isAs ? 'সংযোগ ত্ৰুটি। অনুগ্ৰহ কৰি ৰিফ্ৰেশ কৰক।' : 'Connection Error. Please refresh.'}</h2>`;
+            document.getElementById('loadingStep').innerHTML = `<h2 class='font-display' style='color:#D32F2F;'>${isAs ? 'Connection Error. অনুগ্ৰহ কৰি ৰিফ্ৰেশ কৰক।' : 'Connection Error. Please refresh.'}</h2>`;
         });
     };
 
@@ -492,20 +613,24 @@
         .then(response => {
             if (response.isDuplicate) {
                 alert(document.documentElement.getAttribute('data-lang') === 'as' ? 
-                  "প্ৰৱেশ নিষিদ্ধ: আপুনি ইতিমধ্যে এই পৰীক্ষা দিছে।" : 
+                  "Access Denied: আপুনি ইতিমধ্যে এই পৰীক্ষা দিছে।" : 
                   "Access Denied: You have already attempted this exam from this device or email.");
+                document.body.classList.remove('exam-mode');
                 startBtn.disabled = false;
                 startBtn.innerHTML = `<span lang-en>Begin Examination</span><span lang-as>পৰীক্ষা আৰম্ভ কৰক</span>`;
             } else {
+                document.body.classList.add('exam-mode');
                 document.getElementById('registrationStep').classList.add('hidden');
                 document.getElementById('quizStep').classList.remove('hidden');
                 quizIsActive = true;
                 startTime = Date.now(); 
+                startExamStatusPolling();
                 renderQuestion();
             }
         })
         .catch(err => {
             alert("Verification failed. Please check your internet connection.");
+            document.body.classList.remove('exam-mode');
             startBtn.disabled = false;
             startBtn.innerHTML = `<span lang-en>Begin Examination</span><span lang-as>পৰীক্ষা আৰম্ভ কৰক</span>`;
         });
@@ -514,7 +639,15 @@
     function renderQuestion() {
         const q = quizQuestions[currentQuestionIndex];
         document.getElementById('questionCounter').innerText = `Q ${currentQuestionIndex + 1} / ${quizQuestions.length}`;
-        document.getElementById('questionText').innerHTML = q.text.replace(/\n/g, '<br><br>');
+
+        const pct = Math.round(((currentQuestionIndex) / quizQuestions.length) * 100);
+        const progressFill = document.getElementById('progressFill');
+        const progressTrack = document.getElementById('progressTrack');
+        if (progressFill) progressFill.style.width = pct + '%';
+        if (progressTrack) progressTrack.setAttribute('aria-valuenow', pct);
+
+        const questionTextEl = document.getElementById('questionText');
+        questionTextEl.innerHTML = q.text.replace(/\n/g, '<br><br>');
         
         document.getElementById('optionsContainer').innerHTML = q.options.map(opt => `
             <label class="option-label">
@@ -526,7 +659,9 @@
             document.getElementById('nextBtn').classList.add('hidden');
             document.getElementById('submitBtn').classList.remove('hidden');
         }
+        saveProgress();
         startTimer();
+        questionTextEl.focus();
     }
 
     function startTimer() {
@@ -548,6 +683,13 @@
         document.getElementById('timeText').innerText = `${secondsRemaining}s`;
         const badge = document.getElementById('timerDisplay');
         secondsRemaining <= 10 ? badge.classList.add('urgent') : badge.classList.remove('urgent');
+
+        const ring = document.getElementById('timerRing');
+        if (ring) {
+            const total = quizConfig.timePerQuestion || 40;
+            const fraction = Math.max(0, Math.min(1, secondsRemaining / total));
+            ring.style.strokeDashoffset = RING_CIRCUMFERENCE * (1 - fraction);
+        }
     }
 
     function saveCurrentAnswer(isAutoAdvance = false) {
@@ -582,6 +724,9 @@
     function triggerSubmission() {
         quizIsActive = false; 
         clearInterval(timerInterval);
+        clearInterval(examStatusInterval);
+        const progressFill = document.getElementById('progressFill');
+        if (progressFill) progressFill.style.width = '100%';
         const submitBtn = document.getElementById('submitBtn');
         submitBtn.disabled = true;
         submitBtn.innerHTML = `<span lang-en>Submitting...</span><span lang-as>জমা দিয়া হৈছে...</span>`;
@@ -598,12 +743,22 @@
             answers: userAnswers
         };
 
+        submitQuizWithRetry(payload, 1);
+    }
+
+    const MAX_SUBMIT_ATTEMPTS = 3;
+
+    function submitQuizWithRetry(payload, attempt) {
+        const submitBtn = document.getElementById('submitBtn');
+        const isAs = document.documentElement.getAttribute('data-lang') === 'as';
+
         fetch(SCRIPT_URL, {
             method: "POST",
             body: JSON.stringify({ action: "submitQuiz", payload: payload })
         })
         .then(res => res.json())
         .then(result => {
+            clearProgress();
             document.getElementById('quizStep').classList.add('hidden');
             document.getElementById('completionStep').classList.remove('hidden');
 
@@ -617,13 +772,25 @@
             }
         })
         .catch(err => {
-            alert("Submission failed. Check connection.");
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = `<span lang-en>Submit Exam</span><span lang-as>পৰীক্ষা জমা কৰক</span>`;
+            if (attempt < MAX_SUBMIT_ATTEMPTS) {
+                submitBtn.innerHTML = isAs ?
+                    `পুনৰ চেষ্টা কৰা হৈছে... (${attempt + 1}/${MAX_SUBMIT_ATTEMPTS})` :
+                    `Retrying submission... (${attempt + 1}/${MAX_SUBMIT_ATTEMPTS})`;
+                setTimeout(() => submitQuizWithRetry(payload, attempt + 1), 1500 * attempt);
+            } else {
+                alert(isAs ?
+                    "Submission failed. আপোনাৰ উত্তৰ ইয়াতে সুৰক্ষিত আছে — check your connection and tap Submit again." :
+                    "Submission failed. Your answers are saved here — check your connection and tap Submit again.");
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<span lang-en>Retry Submit</span><span lang-as>পুনৰ জমা কৰক</span>`;
+            }
         });
     }
 
     document.getElementById('exitBtn').addEventListener('click', () => {
+        document.body.classList.remove('exam-mode');
+        if (document.exitFullscreen) document.exitFullscreen().catch(e => {});
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
         window.location.href = "index.html";
     });
 </script>
