@@ -137,6 +137,7 @@
   .option-label:hover{background:#fff; border-color:var(--gold-pale); transform:translateX(3px);}
   .option-label:active{background:#FBF3D9;}
   .option-label input{margin-right:12px; accent-color:var(--gold); transform:scale(1.2);}
+  #answerHint{margin-top:10px; color:#D32F2F; font-size:13px; font-weight:600;}
 
   /* ---------- SECURITY OVERLAY ---------- */
   #warningOverlay{position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(211,47,47,.96); color:#fff; z-index:9999; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:24px;}
@@ -282,6 +283,9 @@
       </div>
       <div class="question-text" id="questionText" tabindex="-1"></div>
       <div id="optionsContainer"></div>
+      <div id="answerHint" class="hidden" role="alert" aria-live="assertive">
+        <span lang-en>Please select an option.</span><span lang-as>অনুগ্ৰহ কৰি এটা বিকল্প বাছনি কৰক।</span>
+      </div>
       <div style="margin-top:22px; text-align:right;">
         <button id="nextBtn" class="btn btn-gold"><span lang-en>Next Question</span><span lang-as>পৰৱৰ্তী প্ৰশ্ন</span></button>
         <button id="submitBtn" class="btn btn-gold hidden"><span lang-en>Submit Exam</span><span lang-as>পৰীক্ষা জমা কৰক</span></button>
@@ -654,6 +658,10 @@
                 <input type="radio" name="currentQ" value="${opt.originalKey}"> ${opt.displayLabel}) ${opt.text}
             </label>
         `).join('');
+        document.getElementById('answerHint').classList.add('hidden');
+        document.getElementById('optionsContainer').addEventListener('change', () => {
+            document.getElementById('answerHint').classList.add('hidden');
+        }, { once: true });
 
         if (currentQuestionIndex === quizQuestions.length - 1) {
             document.getElementById('nextBtn').classList.add('hidden');
@@ -695,9 +703,11 @@
     function saveCurrentAnswer(isAutoAdvance = false) {
         const selectedOption = document.querySelector('input[name="currentQ"]:checked');
         if (!selectedOption && !isAutoAdvance) {
-            alert(document.documentElement.getAttribute('data-lang') === 'as' ? "অনুগ্ৰহ কৰি এটা বিকল্প বাছনি কৰক।" : "Please select an option.");
+            // inline hint instead of alert(): a native dialog steals window focus and trips the security handler
+            document.getElementById('answerHint').classList.remove('hidden');
             return false;
         }
+        document.getElementById('answerHint').classList.add('hidden');
         userAnswers[quizQuestions[currentQuestionIndex].id] = selectedOption ? selectedOption.value : "Unanswered"; 
         return true;
     }
