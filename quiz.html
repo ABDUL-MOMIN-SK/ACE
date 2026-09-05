@@ -241,7 +241,7 @@
 
     <!-- Registration -->
     <div id="registrationStep" class="hidden">
-      <div class="eyebrow-row"><div class="tick"></div><span class="eyebrow"><span lang-en>Mock Test</span><span lang-as>মক পৰীক্ষা</span></span><div class="tick"></div></div>
+      <div class="eyebrow-row"><div class="tick"></div><span class="eyebrow"><span lang-en>Teacher's Day - Quiz</span><span lang-as>শিক্ষক দিৱস - কুইজ</span></span><div class="tick"></div></div>
       <h2 class="font-display" style="text-align:center; margin-bottom:6px; font-size:21px;">ACE Quiz Challenge</h2>
       <span class="ace-line" style="margin-bottom:22px;">Dream big. Work hard. ACE it.</span>
       <div class="input-group">
@@ -284,7 +284,7 @@
       <div class="question-text" id="questionText" tabindex="-1"></div>
       <div id="optionsContainer"></div>
       <div id="answerHint" class="hidden" role="alert" aria-live="assertive">
-        <span lang-en>Please select an option.</span><span lang-as>অনুগ্ৰহ কৰি এটা বিকল্প বাছনি কৰক।</span>
+        <span lang-en>Please select an option. Click again to continue without answering.</span><span lang-as>অনুগ্ৰহ কৰি এটা বিকল্প বাছনি কৰক। উত্তৰ নিদিয়াকৈ আগবাঢ়িবলৈ পুনৰ ক্লিক কৰক।</span>
       </div>
       <div style="margin-top:22px; text-align:right;">
         <button id="nextBtn" class="btn btn-gold"><span lang-en>Next Question</span><span lang-as>পৰৱৰ্তী প্ৰশ্ন</span></button>
@@ -388,6 +388,13 @@
         }
     });
 
+    // Native dialogs blur the window; suppress detection while one is open (plus a grace period on return).
+    let securityGuardUntil = 0;
+    function guardedAlert(message) {
+        securityGuardUntil = Infinity;
+        try { alert(message); } finally { securityGuardUntil = Date.now() + 1500; }
+    }
+
     function startExamStatusPolling() {
         clearInterval(examStatusInterval);
         examStatusInterval = setInterval(() => {
@@ -398,7 +405,7 @@
                     if (!data.active && quizIsActive) {
                         clearInterval(examStatusInterval);
                         const isAs = document.documentElement.getAttribute('data-lang') === 'as';
-                        alert(isAs ?
+                        guardedAlert(isAs ?
                             "This exam has been closed by the administrator. আপোনাৰ উত্তৰ এতিয়া জমা কৰা হ'ব।" :
                             "This exam has been closed by the administrator. Your answers will be submitted now.");
                         triggerSubmission();
@@ -409,13 +416,13 @@
     }
 
     function handleSecurityViolation(reasonEn, reasonAs) {
-        if (!quizIsActive) return;
+        if (!quizIsActive || Date.now() < securityGuardUntil) return;
         tabSwitchCount++;
         const isAs = document.documentElement.getAttribute('data-lang') === 'as';
         const reason = isAs ? reasonAs : reasonEn;
 
         if (tabSwitchCount >= MAX_SWITCHES) {
-            alert(isAs ? `Security Violation: ${reason}ৰ বাবে পৰীক্ষা সমাপ্ত কৰা হ'ল।` : `Security Violation: Test terminated due to ${reason}.`);
+            guardedAlert(isAs ? `Security Violation: ${reason}ৰ বাবে পৰীক্ষা সমাপ্ত কৰা হ'ল।` : `Security Violation: Test terminated due to ${reason}.`);
             triggerSubmission(); 
         } else {
             const overlay = document.getElementById('warningOverlay');
@@ -659,6 +666,7 @@
             </label>
         `).join('');
         document.getElementById('answerHint').classList.add('hidden');
+        skipWarningShown = false;
         document.getElementById('optionsContainer').addEventListener('change', () => {
             document.getElementById('answerHint').classList.add('hidden');
         }, { once: true });
@@ -700,10 +708,13 @@
         }
     }
 
+    let skipWarningShown = false;
+
     function saveCurrentAnswer(isAutoAdvance = false) {
         const selectedOption = document.querySelector('input[name="currentQ"]:checked');
-        if (!selectedOption && !isAutoAdvance) {
+        if (!selectedOption && !isAutoAdvance && !skipWarningShown) {
             // inline hint instead of alert(): a native dialog steals window focus and trips the security handler
+            skipWarningShown = true;
             document.getElementById('answerHint').classList.remove('hidden');
             return false;
         }
